@@ -84,6 +84,7 @@ export default function DialogForm(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const data = props.data.fieldData;
+  const [open, setOpen] = React.useState(props.open);
   const [logo_url, setLogoUrl] = React.useState(data.logo);
   const [des, setDes] = React.useState(data.desc);
   const [dev_name, setDevName] = React.useState(data.title);
@@ -92,13 +93,8 @@ export default function DialogForm(props) {
   const [prj_name, setPrjName] = React.useState(data.imgTitle);
   const [prj_loc, setPrjLoc] = React.useState(data.location);
   const [prj_loc_url, setPrjLocUrl] = React.useState(data.imgURL);
-  const [open, setOpen] = React.useState(props.open);
   const [mode] = React.useState(props.data.mode);
   const [id] = React.useState(data.id);
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   const handleAdd = () => {
     let addPayLoad = getDataToSave();
@@ -134,11 +130,10 @@ export default function DialogForm(props) {
     <div>
       <Dialog
         open={open}
-        onClose={handleClose}
         fullWidth={true}
         maxWidth={"md"}
       >
-        <SampleDialogTitle id="customized-dialog-title" onClose={handleClose} />
+        <SampleDialogTitle id="customized-dialog-title" />
         <DialogContent>
           <form className={classes.form} noValidate autoComplete="off">
             <Grid
@@ -278,7 +273,7 @@ export default function DialogForm(props) {
               size="small"
               className={classes.button}
               classes={{ root: classes.buttonDesign }}
-              onclick={handleAdd}
+              onClick={handleAdd}
             >
               SAVE
             </Button>
@@ -289,7 +284,7 @@ export default function DialogForm(props) {
               size="small"
               className={classes.button}
               classes={{ root: classes.buttonDesign }}
-              onclick={handleUpdate}
+              onClick={handleUpdate}
             >
               UPDATE
             </Button>
@@ -299,7 +294,7 @@ export default function DialogForm(props) {
               color="primary"
               className={classes.button}
               classes={{ root: classes.buttonDesign }}
-              onclick={handleDelete}
+              onClick={handleDelete}
             >
               DELETE
             </Button>
