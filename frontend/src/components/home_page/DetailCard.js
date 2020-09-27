@@ -90,10 +90,14 @@ export default function DetailCard(props) {
       />
       <CardActions disableSpacing>
       <IconButton aria-label="edit icon">
-          <EditIcon />
+          <EditIcon onClick={(event) => {
+            props.edit(event, data)
+          }}/>
         </IconButton>
         <IconButton aria-label="delete icon">
-          <DeleteIcon />
+          <DeleteIcon onClick={(event) => {
+            props.delete(event, data)
+          }}/>
         </IconButton>
       </CardActions>
     </Card>

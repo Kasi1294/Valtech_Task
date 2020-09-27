@@ -1,28 +1,46 @@
 import {
   INITIAL_LOAD_SAGA,
+  ADD_ITEM_SAGA,
+  UPDATE_ITEM_SAGA,
+  DELETE_ITEM_SAGA,
 } from "../actions/actions.types";
 
 //Inital state for the TODO application
 const initalState = {
   selectedItem: [],
-  allItems : [],
+  allItems: [],
 };
 
 {
   /**
    * cardReducer is a reducer function for card app
-   * 
+   *
    * @param{state} default value is inital state
-   * @param{action} action dispatch from UI 
+   * @param{action} action dispatch from UI
    * @return {object} new state
    */
 }
 const cardReducer = (state = initalState, action) => {
-  switch(action.type){
+  switch (action.type) {
     case INITIAL_LOAD_SAGA:
       return {
         ...state,
-        allItems: [ ...action.items, ...state.allItems],
+        allItems: [...action.items, ...state.allItems],
+      };
+    case ADD_ITEM_SAGA:
+      return {
+        ...state,
+        allItems: [...action.addedItem, ...state.allItems],
+      };
+    case UPDATE_ITEM_SAGA:
+      return {
+        ...state,
+        allItems: [...action.updatedItem, ...state.addedItem],
+      };
+    case DELETE_ITEM_SAGA:
+      return {
+        ...state,
+        allItems: state.allItems.filter((item) => item.id !== action.id),
       };
     default:
       return state;

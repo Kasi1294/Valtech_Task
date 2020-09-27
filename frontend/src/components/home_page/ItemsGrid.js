@@ -10,6 +10,7 @@ import Typography from "@material-ui/core/Typography";
 
 import { initialLoad } from "../../redux/actions/cardActions";
 import DetailCard from "./DetailCard";
+import DialogForm from "../detail_page/DialogForm"
 
 const useStyles = makeStyles((theme) => ({
   muigridlistroot: {
@@ -30,6 +31,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ItemsGrid = () => {
+  const [openDialog, setOpenDialog] = React.useState(false);
+  const [data, setData] = React.useState({
+    fieldData : {},
+    mode : null
+  });
+
+  let editData = (event, data) => {
+    setOpenDialog(true);
+    setData({fieldData:data, mode : "Update"});
+  };
+
+  let deleteData = (event, data) => {
+    setOpenDialog(true);
+    setData({fieldData:data, mode : "Delete"});
+  };
+
   const classes = useStyles();
 
   // dispatch - redux dispatch function
@@ -49,8 +66,15 @@ const ItemsGrid = () => {
     padding: "35px",
   };
 
+  let openDialogClick = () => {
+    setOpenDialog(true);
+    setData({fieldData:{}, mode:"Add"})
+  }
+  
+  
   return items !== undefined ? (
     <div>
+    {openDialog ? <DialogForm open={openDialog} data={data}/> : ""}
       <Grid
         container
         justify="space-between"
@@ -73,6 +97,7 @@ const ItemsGrid = () => {
             className={classes.button}
             startIcon={<AddIcon />}
             classes = {{root : classes.buttonDesign}}
+            onClick={openDialogClick}
           >
             Add New Member
           </Button>
@@ -88,7 +113,7 @@ const ItemsGrid = () => {
               key={item.id}
               classes={{ root: classes.muigridlistroot }}
             >
-              <DetailCard data={item} />
+              <DetailCard data={item} edit={editData} delete={deleteData}/>
             </GridListTile>
           );
         })}

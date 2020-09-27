@@ -1,5 +1,5 @@
 import {all, fork} from "redux-saga/effects";
-import {initialLoad} from './cardSaga'
+import {initialLoad, addItem, updateItem, deleteItem} from './cardSaga'
 
 {
   /**
@@ -10,5 +10,5 @@ import {initialLoad} from './cardSaga'
 }
 
 export default function* rootSaga() {
-    yield all([fork(initialLoad)]);
+    yield all([fork(initialLoad), fork(addItem), fork(updateItem), fork(deleteItem)]);
   }
