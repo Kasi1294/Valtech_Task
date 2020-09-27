@@ -71,7 +71,7 @@ const dialogStyles = (theme) => ({
     padding: theme.spacing(2),
   },
   closeButton: {
-    position: 'absolute',
+    position: "absolute",
     right: theme.spacing(1),
     top: theme.spacing(1),
     color: theme.palette.grey[500],
@@ -102,9 +102,9 @@ const DialogToolBar = withStyles(dialogStyles)((props) => {
 
 {
   /**
-   * DialogForm is the react function component 
+   * DialogForm is the react function component
    * for input a item in both add and update
-   * 
+   *
    * @return{DialogForm component}
    */
 }
@@ -115,7 +115,7 @@ export default function DialogForm(props) {
   const open = props.open;
   const mode = props.data.mode;
   const data = props.data.fieldData;
-  
+
   const [logo_url, setLogoUrl] = React.useState(data.logo);
   const [desc, setDesc] = React.useState(data.desc);
   const [dev_name, setDevName] = React.useState(data.title);
@@ -124,18 +124,23 @@ export default function DialogForm(props) {
   const [prj_name, setPrjName] = React.useState(data.imgTitle);
   const [prj_loc, setPrjLoc] = React.useState(data.location);
   const [prj_loc_url, setPrjLocUrl] = React.useState(data.imgURL);
-  
+
   //Close button click in dialog
-  const handleClose = () => {props.onClose()};
+  const handleClose = () => {
+    props.onClose();
+  };
 
   //selectedItem - current selected item for edit
   const lastId = useSelector((state) => {
     return state.cardReducer.allItems.length;
   });
-  
+
   //id for add and update
   const id = props.data.mode === "Add" ? lastId + 1 : data.id;
-  
+
+  //Input field disable for delete
+  const isDisable = props.data.mode === "Delete" ? true : false;
+
   //Add a new Item
   const handleAdd = () => {
     let addPayLoad = getDataToSave();
@@ -170,8 +175,13 @@ export default function DialogForm(props) {
 
   return (
     <div>
-      <Dialog open={open} fullWidth={true} maxWidth={"sm"} onClose={handleClose}>
-       <DialogToolBar onClose={handleClose} id="customized-dialog-title" />
+      <Dialog
+        open={open}
+        fullWidth={true}
+        maxWidth={"sm"}
+        onClose={handleClose}
+      >
+        <DialogToolBar onClose={handleClose} id="customized-dialog-title" />
         <DialogContent>
           <form className={classes.form} noValidate autoComplete="off">
             <Grid
@@ -197,6 +207,7 @@ export default function DialogForm(props) {
                     value={logo_url}
                     classes={{ root: classes.designTextField }}
                     onChange={(value) => setLogoUrl(value.target.value)}
+                    disabled={isDisable}
                   />
                 </div>
               </FormControl>
@@ -210,6 +221,7 @@ export default function DialogForm(props) {
                     value={dev_name}
                     classes={{ root: classes.designTextField }}
                     onChange={(value) => setDevName(value.target.value)}
+                    disabled={isDisable}
                   />
                 </div>
               </FormControl>
@@ -224,6 +236,7 @@ export default function DialogForm(props) {
                     value={year_exp}
                     classes={{ root: classes.designTextField }}
                     onChange={(value) => setYearExp(value.target.value)}
+                    disabled={isDisable}
                   />
                 </div>
               </FormControl>
@@ -238,6 +251,7 @@ export default function DialogForm(props) {
                     value={prj_count}
                     classes={{ root: classes.designTextField }}
                     onChange={(value) => setPrjCount(value.target.value)}
+                    disabled={isDisable}
                   />
                 </div>
               </FormControl>
@@ -253,6 +267,7 @@ export default function DialogForm(props) {
                     value={desc}
                     classes={{ root: classes.designTextField }}
                     onChange={(value) => setDesc(value.target.value)}
+                    disabled={isDisable}
                   />
                 </div>
               </FormControl>
@@ -267,6 +282,7 @@ export default function DialogForm(props) {
                     value={prj_name}
                     classes={{ root: classes.designTextField }}
                     onChange={(value) => setPrjName(value.target.value)}
+                    disabled={isDisable}
                   />
                 </div>
               </FormControl>
@@ -281,6 +297,7 @@ export default function DialogForm(props) {
                     value={prj_loc}
                     classes={{ root: classes.designTextField }}
                     onChange={(value) => setPrjLoc(value.target.value)}
+                    disabled={isDisable}
                   />
                 </div>
               </FormControl>
@@ -297,6 +314,7 @@ export default function DialogForm(props) {
                     value={prj_loc_url}
                     classes={{ root: classes.designTextField }}
                     onChange={(value) => setPrjLocUrl(value.target.value)}
+                    disabled={isDisable}
                   />
                 </div>
               </FormControl>
