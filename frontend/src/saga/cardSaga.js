@@ -1,11 +1,13 @@
 import { takeEvery, put } from "redux-saga/effects";
 
-{/*
-* getAllItemsSaga function is used to get all items from backend
-* 
-* @error {error} Error from backend
-* @return {all items} List of items
-*/}
+{
+  /*
+   * getAllItemsSaga function is used to get all items from backend
+   *
+   * @error {error} Error from backend
+   * @return {all items} List of items
+   */
+}
 function* getAllItemsSaga() {
   try {
     const response = yield fetch(
@@ -23,12 +25,14 @@ export function* initialLoad() {
   yield takeEvery("INITIAL_LOAD", getAllItemsSaga);
 }
 
-{/*
-* addItemSaga function is used to add new items to backend
-* 
-* @error {error} Error from backend
-* @return {all items} List of items
-*/}
+{
+  /*
+   * addItemSaga function is used to add new items to backend
+   *
+   * @error {error} Error from backend
+   * @return {all items} List of items
+   */
+}
 function* addItemSaga(addPayLoad) {
   try {
     const url = "http://localhost:3000/items/";
@@ -38,12 +42,12 @@ function* addItemSaga(addPayLoad) {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(addPayLoad),
+      body: JSON.stringify(addPayLoad.payLoad),
     };
-    const response = yield fetch(url, payLoad).then((responce) =>
-      responce.json()
+    const response = yield fetch(url, payLoad).then((response) =>
+      response.json()
     );
-    let addedItem = yield response;
+    const addedItem = yield response;
     yield put({ type: "ADD_ITEM_SAGA", addedItem });
   } catch (error) {
     yield put({ type: "ADD_ERROR_ITEM_SAGA", error });
@@ -55,27 +59,28 @@ export function* addItem() {
   yield takeEvery("ADD_ITEM", addItemSaga);
 }
 
-{/*
-* updateItemSaga function is used to update a items in backend
-* 
-* @error {error} Error from backend
-* @return {all items} List of items
-*/}
+{
+  /*
+   * updateItemSaga function is used to update a items in backend
+   *
+   * @error {error} Error from backend
+   * @return {all items} List of items
+   */
+}
 function* updateItemSaga(updatePayLoad) {
   try {
-    const url = "http://localhost:3000/items/";
+    const url = "http://localhost:3000/items/" + updatePayLoad.id;
     const payLoad = {
       method: "put",
       headers: {
-        Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(updatePayLoad),
+      body: JSON.stringify(updatePayLoad.payLoad),
     };
-    const response = yield fetch(url, payLoad).then((responce) =>
-      responce.json()
+    const response = yield fetch(url, payLoad).then((response) =>
+      response.json()
     );
-    let updatedItem = yield response;
+    const updatedItem = yield response;
     yield put({ type: "UPDATE_ITEM_SAGA", updatedItem });
   } catch (error) {
     yield put({ type: "UPDATE_ERROR_ITEM_SAGA", error });
@@ -87,23 +92,24 @@ export function* updateItem() {
   yield takeEvery("UPDATE_ITEM", updateItemSaga);
 }
 
-
-{/*
-* deleteItemSaga function is used to delete a items in backend
-* 
-* @error {error} Error from backend
-* @return {all items} List of items
-*/}
+{
+  /*
+   * deleteItemSaga function is used to delete a items in backend
+   *
+   * @error {error} Error from backend
+   * @return {all items} List of items
+   */
+}
 function* deleteItemSaga(deletePayLoad) {
   try {
     const url = "http://localhost:3000/items/" + deletePayLoad.id;
     const payLoad = {
       method: "DELETE",
     };
-    const response = yield fetch(url, payLoad).then((responce) =>
-      responce.json()
+    const response = yield fetch(url, payLoad).then((response) =>
+      response.json()
     );
-    let itemId = yield deletePayLoad.id;
+    const itemId = yield deletePayLoad.id;
     yield put({ type: "DELETE_ITEM_SAGA", itemId });
   } catch (error) {
     yield put({ type: "DELETE_ERROR_ITEM_SAGA", error });

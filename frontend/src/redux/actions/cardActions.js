@@ -1,8 +1,8 @@
 import {
-  INITIAL_LOAD,
   ADD_ITEM,
-  UPDATE_ITEM,
-  DELETE_ITEM
+  DELETE_ITEM,
+  INITIAL_LOAD,
+  UPDATE_ITEM
 } from "./actions.types";
 
 {
@@ -24,7 +24,8 @@ export const initialLoad = () => {
    * addItem is a action creator function
    * for add item
    *
-   * @return{type: INITIAL_LOAD}
+   * @param{addItem}
+   * @return{type: ADD_ITEM}
    */
 }
 export const addItem = (addItem) => {
@@ -39,13 +40,15 @@ export const addItem = (addItem) => {
    * updateItem is a action creator function
    * for update item
    *
-   * @return{type: INITIAL_LOAD}
+   * @param{updateItem}
+   * @return{type: UPDATE_ITEM}
    */
 }
 export const updateItem = (updateItem) => {
   return {
     type: UPDATE_ITEM,
-    payLoad : updateItem
+    payLoad : updateItem,
+    id : updateItem.id
   };
 };
 
@@ -54,12 +57,13 @@ export const updateItem = (updateItem) => {
    * deleteItem is a action creator function
    * for delete item
    *
+   * @param{deleteItem}
    * @return{type: INITIAL_LOAD}
    */
 }
 export const deleteItem = (deleteItem) => {
   return {
     type: DELETE_ITEM,
-    payLoad : deleteItem
+    id : deleteItem
   };
 };

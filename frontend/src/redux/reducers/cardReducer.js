@@ -1,8 +1,8 @@
 import {
-  INITIAL_LOAD_SAGA,
   ADD_ITEM_SAGA,
-  UPDATE_ITEM_SAGA,
   DELETE_ITEM_SAGA,
+  INITIAL_LOAD_SAGA,
+  UPDATE_ITEM_SAGA
 } from "../actions/actions.types";
 
 //Inital state for the TODO application
@@ -13,11 +13,11 @@ const initalState = {
 
 {
   /**
-   * cardReducer is a reducer function for card app
+   * cardReducer is a reducer function for Item app
    *
    * @param{state} default value is inital state
    * @param{action} action dispatch from UI
-   * @return {object} new state
+   * @return{object} new state
    */
 }
 const cardReducer = (state = initalState, action) => {

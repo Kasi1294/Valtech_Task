@@ -1,17 +1,18 @@
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
+import AddIcon from "@material-ui/icons/Add";
+import Button from "@material-ui/core/Button";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
-import Button from "@material-ui/core/Button";
-import AddIcon from "@material-ui/icons/Add";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
+import { useSelector, useDispatch } from "react-redux";
+import { makeStyles } from "@material-ui/core/styles";
 
 import { initialLoad } from "../../redux/actions/cardActions";
 import DetailCard from "./DetailCard";
 import DialogForm from "../detail_page/DialogForm"
 
+//useStyles is used to style ItemGrid
 const useStyles = makeStyles((theme) => ({
   muigridlistroot: {
     height: "100% !important",
@@ -28,26 +29,31 @@ const useStyles = makeStyles((theme) => ({
   buttonDesign: {
     borderRadius: 30,
   },
+  tile: {
+    position : "relative",
+    overflow: "initial",
+  },
+  gridList:{
+    padding:theme.spacing(0, 0, 0, 4.5),
+    margin: "0 !important",
+  }
 }));
 
+{
+  /**
+   * ItemsGrid is a react function component 
+   * used to show the item
+   * 
+   * @return{ItemsGrid}
+   */
+}
 const ItemsGrid = () => {
+  const classes = useStyles();
   const [openDialog, setOpenDialog] = React.useState(false);
   const [data, setData] = React.useState({
     fieldData : {},
     mode : null
   });
-
-  let editData = (event, data) => {
-    setOpenDialog(true);
-    setData({fieldData:data, mode : "Update"});
-  };
-
-  let deleteData = (event, data) => {
-    setOpenDialog(true);
-    setData({fieldData:data, mode : "Delete"});
-  };
-
-  const classes = useStyles();
 
   // dispatch - redux dispatch function
   const dispatch = useDispatch();
@@ -57,28 +63,49 @@ const ItemsGrid = () => {
     dispatch(initialLoad());
   }, []);
 
-  //selectedItem - current selected item for edit
+  {
+    /**
+     * editData is function used to handle the 
+     * item update 
+     *  
+     * @param{data}
+     */
+  }
+  let editData = (data) => {
+    setOpenDialog(true);
+    setData({fieldData:data, mode : "Update"});
+  };
+
+  {
+    /**
+     * deleteData is function used to handle the 
+     * item delete 
+     *  
+     * @param{data}
+     */
+  }
+  let deleteData = (data) => {
+    setOpenDialog(true);
+    setData({fieldData:data, mode : "Delete"});
+  };
+
+  //All item in current state
   const items = useSelector((state) => {
     return state.cardReducer.allItems;
   });
 
-  let style = {
-    padding: "35px",
-  };
-
-  let openDialogClick = () => {
+  //addItem is used to handle add
+  let addItem = () => {
     setOpenDialog(true);
     setData({fieldData:{}, mode:"Add"})
   }
-  
-  
+    
   return items !== undefined ? (
     <div>
-    {openDialog ? <DialogForm open={openDialog} data={data}/> : ""}
+    {  openDialog ? <DialogForm open={openDialog} data={data} onClose={()=> {setOpenDialog(false);}}/> : null }
       <Grid
         container
         justify="space-between"
-        spacing={24}
         className={classes.headerDetail}
       >
         <Grid container xs={4}>
@@ -97,7 +124,7 @@ const ItemsGrid = () => {
             className={classes.button}
             startIcon={<AddIcon />}
             classes = {{root : classes.buttonDesign}}
-            onClick={openDialogClick}
+            onClick={addItem}
           >
             Add New Member
           </Button>
@@ -105,13 +132,14 @@ const ItemsGrid = () => {
       </Grid>
       <GridList
         cols={3}
-        style={style}
+        classes ={{root:classes.gridList}}
+        xs={3}
       >
         {items.map((item) => {
           return (
             <GridListTile
               key={item.id}
-              classes={{ root: classes.muigridlistroot }}
+              classes={{ root: classes.muigridlistroot, tile: classes.tile }}
             >
               <DetailCard data={item} edit={editData} delete={deleteData}/>
             </GridListTile>
@@ -120,7 +148,7 @@ const ItemsGrid = () => {
       </GridList>
     </div>
   ) : (
-    ""
+    null
   );
 };
 
